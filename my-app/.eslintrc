@@ -18,6 +18,7 @@
     "node": true
   },
   "rules": {
+    "linebreak-style": 0,
     "sort-keys": "off",
     "react/jsx-fragments": "off",
     "react/jsx-filename-extension": "off",

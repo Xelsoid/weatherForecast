@@ -1,8 +1,17 @@
 import React from 'react';
 import './index.css';
 import ForecastTableCell from './ForecastTableCell';
+import localizationUk from '../../mockedData/localization.uk';
+import localizationRu from '../../mockedData/localization.ru';
 
 class ForecastTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      localization: props.isLocalizationRu ? localizationRu : localizationUk,
+    };
+  }
+
   getFormattedDate(date) {
     return new Date(date);
   }
@@ -12,11 +21,12 @@ class ForecastTable extends React.Component {
     console.log(weatherData);
     if (!weatherData || !weatherData.list) { return null; }
 
+    const { localization } = this.state;
     return (
       <table className="table table-sm forecast-table">
         <thead>
           <tr>
-            <th>Day of the week</th>
+            <th>{localization.main.weatherTable.day}</th>
             {weatherData.list.map((elem) => {
               const formattedDate = this.getFormattedDate(elem.dt_txt);
               const cellData = `${formattedDate.getDate()}/${formattedDate.getMonth() + 1}`;
@@ -24,7 +34,7 @@ class ForecastTable extends React.Component {
             })}
           </tr>
           <tr>
-            <th>Local time</th>
+            <th>{localization.main.weatherTable.time}</th>
             {weatherData.list.map((elem) => {
               const formattedDate = this.getFormattedDate(elem.dt_txt);
               const cellData = `${formattedDate.getHours()}`;
@@ -34,7 +44,7 @@ class ForecastTable extends React.Component {
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Cloudness, %:</th>
+            <th scope="row">{localization.main.weatherTable.cloudness}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={elem.clouds.all} />
             ))}
@@ -59,31 +69,31 @@ class ForecastTable extends React.Component {
           </tr>
 
           <tr>
-            <th scope="row">Weather phenomena:</th>
+            <th scope="row">{localization.main.weatherTable.weather}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={elem.weather[0].description} />
             ))}
           </tr>
           <tr>
-            <th scope="row">Temperature, °C:</th>
+            <th scope="row">{localization.main.weatherTable.temp}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={(elem.main.temp - 275).toFixed(1)} />
             ))}
           </tr>
           <tr>
-            <th scope="row">Pressure, mmHg:</th>
+            <th scope="row">{localization.main.weatherTable.pressure}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={(elem.main.pressure * 0.75).toFixed(0)} />
             ))}
           </tr>
           <tr>
-            <th scope="row">Wind: speed , m/s:</th>
+            <th scope="row">{localization.main.weatherTable.wind.speed}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={elem.wind.speed} />
             ))}
           </tr>
           <tr>
-            <th scope="row">direction:</th>
+            <th scope="row">{localization.main.weatherTable.wind.direction}</th>
             {weatherData.list.map(elem => (
               <ForecastTableCell key={elem.dt} cellData={elem.wind.deg} />
             ))}
