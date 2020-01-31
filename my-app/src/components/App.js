@@ -30,6 +30,7 @@ class App extends React.Component {
 
   getWeatherForecastForCity() {
     const { searchInputData } = this.state;
+    const { addWeatherData } = this.props;
 
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInputData}&APPID=4f4b3160aa3de4b2694f8fed4974f97c`)
       .then((response) => {
@@ -57,8 +58,8 @@ class App extends React.Component {
 
   render() {
     const { weatherData } = this.props;
-    console.log(weatherData)
-    const { localization } = this.state;
+    const { localization, isLocalizationRu } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -72,12 +73,30 @@ class App extends React.Component {
                   <label className="input-group-prepend mb-0" htmlFor="searchInput">
                     <span className="input-group-text">{localization.header.citySearch.city}</span>
                   </label>
-                  <input type="text" className="form-control" id="searchInput" placeholder={localization.header.citySearch.inputPH} onChange={this.putSearchInputToState} onKeyUp={this.getWeatherForecastForCityByEnterKey} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={localization.header.citySearch.inputPH}
+                    onChange={this.putSearchInputToState}
+                    onKeyUp={this.getWeatherForecastForCityByEnterKey}
+                  />
                   <div className="input-group-append">
-                    <button className="btn btn-outline-secondary text-light" type="button" onClick={this.getWeatherForecastForCity}>{localization.header.citySearch.searchBtn}</button>
+                    <button
+                      className="btn btn-outline-secondary text-light"
+                      type="button"
+                      onClick={this.getWeatherForecastForCity}
+                    >
+                      {localization.header.citySearch.searchBtn}
+                    </button>
                   </div>
                 </div>
-                <button type="button" className="btn btn-outline-secondary text-light" onClick={this.changeLocalization}>{this.state.isLocalizationRu ? 'RU' : 'UK'}</button>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary text-light"
+                  onClick={this.changeLocalization}
+                >
+                  {isLocalizationRu ? 'RU' : 'UK'}
+                </button>
               </div>
             </div>
           </div>
@@ -85,10 +104,10 @@ class App extends React.Component {
         <main>
           <div className="container-fluid pr-4 pl-4 mt-4 mb-3">
             <div className="row">
-              <h2>{this.state.weatherData ? `Weather in ${this.state.weatherData.city.name}` : 'Not found. Looks like you entered wrong city name.'}</h2>
+              <h2>{weatherData ? `Weather in ${weatherData.city.name}` : 'Not found. Looks like you entered wrong city name.'}</h2>
             </div>
             <div className="row overflow-auto">
-              <ForecastTable weatherData={weatherData} isLocalizationRu={this.state.isLocalizationRu} />
+              <ForecastTable weatherData={weatherData} isLocalizationRu={isLocalizationRu} />
             </div>
           </div>
         </main>
