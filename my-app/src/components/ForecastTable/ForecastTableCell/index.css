@@ -1,3 +1,8 @@
 .forecast-table {
   font-size: 0.8rem;
+  border: solid black 2px;
+}
+
+.forecast-table td:nth-child(even) {
+  background-color: lightgrey;
 }

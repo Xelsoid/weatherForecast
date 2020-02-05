@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ForecastTable from './ForecastTable';
+import Button from './Button';
 import localizationUk from '../mockedData/localization.uk';
 import localizationRu from '../mockedData/localization.ru';
 import { addWeatherData } from '../actions';
@@ -17,18 +18,13 @@ class App extends React.Component {
       localization: this.isLocalizationRu ? localizationRu : localizationUk,
     };
     this.getWeatherForecastForCity = this.getWeatherForecastForCity.bind(this);
-    this.getWeatherForecastForCityByEnterKey = this.getWeatherForecastForCityByEnterKey.bind(this);
     this.putSearchInputToState = this.putSearchInputToState.bind(this);
     this.changeLocalization = this.changeLocalization.bind(this);
   }
 
-  getWeatherForecastForCityByEnterKey(e) {
-    if (e.keyCode === 13) {
-      this.getWeatherForecastForCity();
-    }
-  }
+  getWeatherForecastForCity(e) {
+    if (e.keyCode !== 13) return;
 
-  getWeatherForecastForCity() {
     const { searchInputData } = this.state;
     const { addWeatherData } = this.props;
 
@@ -78,16 +74,15 @@ class App extends React.Component {
                     className="form-control"
                     placeholder={localization.header.citySearch.inputPH}
                     onChange={this.putSearchInputToState}
-                    onKeyUp={this.getWeatherForecastForCityByEnterKey}
+                    onKeyUp={this.getWeatherForecastForCity}
                   />
                   <div className="input-group-append">
-                    <button
-                      className="btn btn-outline-secondary text-light"
+                    <Button
+                      customClassName="btn-outline-secondary text-light"
                       type="button"
-                      onClick={this.getWeatherForecastForCity}
-                    >
-                      {localization.header.citySearch.searchBtn}
-                    </button>
+                      callback={this.getWeatherForecastForCity}
+                      text="Check"
+                    />
                   </div>
                 </div>
                 <button
